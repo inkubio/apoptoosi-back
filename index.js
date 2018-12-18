@@ -40,7 +40,7 @@ db.run(
     }
 );
 
-app.use(cors);
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
@@ -54,6 +54,7 @@ app.get('/api/RegistrationData/Registrations', (req, resp) => {
         FROM Registerations`
         , (e, registerations) => {
             if(e) {
+                console.log(e);
                 resp.status(400).json({});
                 return;
             }
@@ -61,17 +62,22 @@ app.get('/api/RegistrationData/Registrations', (req, resp) => {
             resp.status(200).json(registerations);
             return;
         });
-    resp.status(400).json({});
+    // resp.status(400).json({});
 });
 
 app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
-    let body = req.body;
 
-    body = validateRegisteration(body);
-    if(body) {
+    console.log('Post request started.')
+    let body = req.body;
+    // console.log(req);
+    // console.log(body);
+    // body = validateRegisteration(body);
+    if(!body) {
         resp.status(304).json({});
         return;
     }
+
+    console.log(body);
 
     let query = db.prepare(`
     INSERT INTO Registerations 
@@ -104,10 +110,13 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
             body.text
         ],
         err => {
-            console.log(err);
-            resp.status(400).json({});
+            if(err) {
+                console.log(err);
+                resp.status(400).json({});
+                return;
+            }
+            resp.status(201).json({});
         });
-    resp.status(201).json({});
 });
 
 const PORT = 5000;
