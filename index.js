@@ -43,9 +43,11 @@ db.run(
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.send(`<p>Hello World!</p>`);
-});
+const OPENING_TIME = new Date('2019-01-18T12:00:00');
+
+// app.get('/', (req, res) => {
+//     res.send(`<p>Hello World!</p>`);
+// });
 
 app.get('/api/RegistrationData/Registrations', (req, resp) => {
     console.log('Get request started.');
@@ -67,7 +69,13 @@ app.get('/api/RegistrationData/Registrations', (req, resp) => {
 
 app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
 
-    console.log('Post request started.')
+    const currentTime = new Date();
+    if(OPENING_TIME.getTime() > currentTime.getTime()) {
+        return resp.status(403).json({});
+    }
+
+    console.log('Post request started.');
+
     let body = req.body;
     // console.log(req);
     // console.log(body);
