@@ -79,8 +79,8 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
     let body = req.body;
     // console.log(req);
     // console.log(body);
-    // body = validateRegisteration(body);
-    if(!body) {
+    const valid = validateRegisteration(body);
+    if(!valid) {
         resp.status(304).json({});
         return;
     }
@@ -126,6 +126,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
             resp.status(201).json({});
         });
 });
+
 
 const PORT = 5000;
 
