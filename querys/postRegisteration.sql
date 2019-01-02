@@ -5,6 +5,7 @@ INSERT INTO Registerations
     email,
     seatingGroup,
     alcohol,
+    salute,
     text
 ) 
 

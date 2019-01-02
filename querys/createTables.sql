@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS Registerations
     email TEXT NOT NULL,
     seatingGroup TEXT,
     alcohol INTEGER DEFAULT 1,
+    salute INTEGER DEFAULT 0,
     text TEXT
 );

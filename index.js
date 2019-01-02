@@ -28,6 +28,7 @@ db.run(
         email TEXT NOT NULL,
         seatingGroup TEXT,
         alcohol INTEGER DEFAULT 1,
+        salute INTEGER DEFAULT 0,
         text TEXT
     )`
     , (err, rows) => { 
@@ -90,16 +91,18 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
     let query = db.prepare(`
     INSERT INTO Registerations 
     (
-        firstName, 
+        firstName,
         lastName,
         email,
         seatingGroup,
         alcohol,
+        salute,
         text
     ) 
 
     VALUES
     (
+        ?,
         ?,
         ?,
         ?,
@@ -115,6 +118,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
             body.email,
             body.seatingGroup,
             body.alcohol,
+            body.salute,
             body.text
         ],
         err => {
