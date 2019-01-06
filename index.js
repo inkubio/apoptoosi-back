@@ -29,6 +29,7 @@ db.run(
         seatingGroup TEXT,
         alcohol INTEGER DEFAULT 1,
         salute INTEGER DEFAULT 0,
+        invited INTEGER DEFAULT 0,
         text TEXT
     )`
     , (err, rows) => { 
@@ -53,7 +54,7 @@ const OPENING_TIME = new Date('2019-01-18T12:00:00');
 app.get('/api/RegistrationData/Registrations', (req, resp) => {
     console.log('Get request started.');
     db.all(
-        `SELECT firstName, lastName, seatingGroup, text 
+        `SELECT firstName, lastName, seatingGroup
         FROM Registerations`
         , (e, registerations) => {
             if(e) {
@@ -97,11 +98,13 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
         seatingGroup,
         alcohol,
         salute,
+        invited,
         text
     ) 
 
     VALUES
     (
+        ?,
         ?,
         ?,
         ?,
@@ -119,6 +122,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
             body.seatingGroup,
             body.alcohol,
             body.salute,
+            body.invited,
             body.text
         ],
         err => {
