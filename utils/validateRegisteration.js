@@ -1,8 +1,9 @@
-
+/* Regex to validate email addresses */
 const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const validateRegisteration = (body) => {
 
+    /* If there is somthing horrible in the payload */
     try {
         if (body.firstName.length > 125 || body.firstName.length <= 0) {
             return false;
@@ -27,6 +28,7 @@ const validateRegisteration = (body) => {
 
 };
 
+/* Test validity of the given email */
 const validateEmail = (email) => {
     const valid = regex.test(String(email).toLowerCase());
     // console.log(my);

@@ -1,13 +1,14 @@
+/* Import depencies */
 const http = require('http');
-
 const express = require('express');
 const app = express();
-
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const validateRegisteration = require('./utils/validateRegisteration');
 
 const sqlite3 = require('sqlite3').verbose();
+
+/* Initiliaze database */
 let db = new sqlite3.Database(
     './db/apoptoosiSqlite3.db', 
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, 
@@ -18,7 +19,7 @@ let db = new sqlite3.Database(
         console.log('Database created.');
     }
 );
-
+/* Create registeration table */
 db.run(
     `CREATE TABLE IF NOT EXISTS Registerations 
     (
@@ -42,17 +43,18 @@ db.run(
     }
 );
 
+/* Allow cross site scripting */
 app.use(cors());
+/* Use body parser middleware */
 app.use(bodyParser.json());
 
+/* Starting time of the registeration */
 const OPENING_TIME = new Date('2019-01-18T12:00:00');
 
-// app.get('/', (req, res) => {
-//     res.send(`<p>Hello World!</p>`);
-// });
-
+/* Get registered attendees */
 app.get('/api/RegistrationData/Registrations', (req, resp) => {
     console.log('Get request started.');
+    /* Do not give any additional info to user */
     db.all(
         `SELECT firstName, lastName, seatingGroup
         FROM Registerations`
@@ -66,12 +68,12 @@ app.get('/api/RegistrationData/Registrations', (req, resp) => {
             resp.status(200).json(registerations);
             return;
         });
-    // resp.status(400).json({});
 });
 
 app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
 
     const currentTime = new Date();
+    /* Do not accept requests before opening time */
     if(OPENING_TIME.getTime() > currentTime.getTime()) {
         return resp.status(403).json({});
     }
@@ -79,16 +81,16 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
     console.log('Post request started.');
 
     let body = req.body;
-    // console.log(req);
-    // console.log(body);
+    /* Check that there is valid inputs */
     const valid = validateRegisteration(body);
     if(!valid) {
         resp.status(304).json({});
         return;
     }
 
-    console.log(body);
+    // console.log(body);
 
+    /* Sanitize input */ 
     let query = db.prepare(`
     INSERT INTO Registerations 
     (
@@ -114,6 +116,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
         ?
     )`);
     
+    /* Make request */
     query.run(
         [
             body.firstName,
@@ -131,6 +134,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
                 resp.status(400).json({});
                 return;
             }
+            /* Successful creation */
             resp.status(201).json({});
         });
 });
