@@ -29,6 +29,7 @@ db.run(
         email TEXT NOT NULL,
         seatingGroup TEXT,
         alcohol INTEGER DEFAULT 1,
+        avec TEXT,
         salute INTEGER DEFAULT 0,
         invited INTEGER DEFAULT 0,
         text TEXT
@@ -99,6 +100,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
         email,
         seatingGroup,
         alcohol,
+        avec,
         salute,
         invited,
         text
@@ -106,6 +108,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
 
     VALUES
     (
+        ?,
         ?,
         ?,
         ?,
@@ -124,6 +127,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
             body.email,
             body.seatingGroup,
             body.alcohol,
+            body.avec,
             body.salute,
             body.invited,
             body.text
