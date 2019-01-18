@@ -34,6 +34,7 @@ db.run(
         avec TEXT,
         salute INTEGER DEFAULT 0,
         invited INTEGER DEFAULT 0,
+        alumni INTEGER DEFAULT 0,
         text TEXT
     )`
     , (err, rows) => { 
@@ -107,6 +108,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
         avec,
         salute,
         invited,
+        alumni,
         text
     ) 
 
@@ -138,6 +140,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
             body.avec,
             body.salute,
             body.invited,
+            body.alumni,
             body.text
         ],
         err => {
