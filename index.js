@@ -10,7 +10,7 @@ const sqlite3 = require('sqlite3').verbose();
 
 /* Initiliaze database */
 let db = new sqlite3.Database(
-    './db/apoptoosiSqlite3.db', 
+    './apoptoosiSqlite3.db', 
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, 
     (e) => {
         if(e) {
@@ -29,6 +29,8 @@ db.run(
         email TEXT NOT NULL,
         seatingGroup TEXT,
         alcohol INTEGER DEFAULT 1,
+        sillis INTEGER DEFAULT 0,
+        allergy TEXT,
         avec TEXT,
         salute INTEGER DEFAULT 0,
         invited INTEGER DEFAULT 0,
@@ -100,6 +102,8 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
         email,
         seatingGroup,
         alcohol,
+        allergy,
+        sillis,
         avec,
         salute,
         invited,
@@ -108,6 +112,8 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
 
     VALUES
     (
+        ?,
+        ?,
         ?,
         ?,
         ?,
@@ -127,6 +133,8 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
             body.email,
             body.seatingGroup,
             body.alcohol,
+            body.allergy,
+            body.sillis,
             body.avec,
             body.salute,
             body.invited,

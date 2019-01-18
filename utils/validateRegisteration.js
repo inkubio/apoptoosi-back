@@ -17,6 +17,12 @@ const validateRegisteration = (body) => {
         else if (body.seatingGroup.Length > 125) {
             return false;
         }
+        else if (body.allergy.Length  > 500) {
+            return false;
+        }
+        else if (body.avec.Length  > 255) {
+            return false;
+        } 
         else if (body.avec.Length > 255) {
             return false;
         }
