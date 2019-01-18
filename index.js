@@ -124,6 +124,7 @@ app.post('/api/RegistrationData/CreateRegistration', (req, resp) => {
         ?,
         ?,
         ?,
+        ?,
         ?
     )`);
     
